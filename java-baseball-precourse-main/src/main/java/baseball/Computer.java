@@ -15,7 +15,13 @@ public class Computer {
     public Computer() {
         strike = 0;
         ball = 0;
-        makeRandomNumber();
+        setRandomNumber();
+    }
+
+    public void setRandomNumber() {
+        for (int i = 0; i < 3; i++) {
+            randomNumber[i] = 0;
+        }
     }
 
     public int getStrike() {

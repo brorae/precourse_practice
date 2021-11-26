@@ -5,22 +5,24 @@ import camp.nextstep.edu.missionutils.Console;
 public class Player {
 
     public char[] inputNumber = new char[Computer.NUMBER_SIZE];
-    public boolean continueGame = true;
 
-    public void playGame() {
-        while(continueGame){
-            try{
-                System.out.print("숫자를 입력해주세요 : ");
-                String inputNumber = Console.readLine();
-                saveInputNumber(inputNumber);
-                isValidInput();
-            } catch(IllegalArgumentException e) {
-                continueGame = false;
-                System.out.println("잘못된입력입니다.");
-                e.printStackTrace();
-            }
-        }
+    public void scanInputNumber() {
+        System.out.print("숫자를 입력해주세요 : ");
+        String inputNumber = Console.readLine();
+        saveInputNumber(inputNumber);
+        isValidInput();
     }
+
+    public boolean scanRestartNumber() {
+        String inputNumber = Console.readLine();
+        if (inputNumber.equals("1")) {
+            return true;
+        } else if (inputNumber.equals("2")) {
+            return false;
+        }
+        throw new IllegalArgumentException();
+    }
+
 
     public void saveInputNumber(String inputNumber) {
         this.inputNumber = inputNumber.toCharArray();
@@ -34,7 +36,7 @@ public class Player {
     }
 
     public boolean hasZero() {
-        for (int i=0;i<Computer.NUMBER_SIZE;i++) {
+        for (int i = 0; i < Computer.NUMBER_SIZE; i++) {
             if (inputNumber[i] == '0') {
                 return true;
             }
