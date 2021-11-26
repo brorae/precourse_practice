@@ -19,7 +19,7 @@ public class Computer {
     }
 
     public void setRandomNumber() {
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < NUMBER_SIZE; i++) {
             randomNumber[i] = 0;
         }
     }
@@ -47,13 +47,13 @@ public class Computer {
 
     public void makeRandomNumber() {
         boolean[] isUsed = new boolean[DIGIT];
-        int index = 0;
-        while (index < 3) {
+        int currentIndex = 0;
+        while (currentIndex < NUMBER_SIZE) {
             int eachNumber = Randoms.pickNumberInRange(MIN_NUMBER, MAX_NUMBER);
             if (!isUsed[eachNumber]) {
-                randomNumber[index] = eachNumber;
+                randomNumber[currentIndex] = eachNumber;
                 isUsed[eachNumber] = true;
-                index++;
+                currentIndex++;
             }
         }
     }

@@ -1,7 +1,5 @@
 package baseball;
 
-import camp.nextstep.edu.missionutils.Console;
-
 public class Application {
 
     public Computer computer;
@@ -18,34 +16,29 @@ public class Application {
         Player player = new Player();
         Application application = new Application(computer, player);
         application.computer.makeRandomNumber();
-        System.out.print(application.computer.randomNumber[0]);
-        System.out.print(application.computer.randomNumber[1]);
-        System.out.println(application.computer.randomNumber[2]);
         while (application.continueGame) {
             application.player.scanInputNumber();
             application.countBall();
             application.countStrike();
             application.printHint();
-            application.confirmThreeStrike();
+            application.checkThreeStrike();
             application.computer.setInitial();
-            if (!application.continueGame) {
-                if (application.player.scanRestartNumber()) {
-                    application.continueGame = true;
-                    application.computer.makeRandomNumber();
-                }
-            }
-
+            application.restartGame();
         }
     }
 
+    public int getIntNumber(char eachNumber) {
+        return eachNumber - '0';
+    }
+
     public void countBall() {
-        if (player.inputNumber[0] - '0' == computer.randomNumber[1] || player.inputNumber[0] - '0' == computer.randomNumber[2]) {
+        if (getIntNumber(player.inputNumber[0]) == computer.randomNumber[1] || getIntNumber(player.inputNumber[0]) == computer.randomNumber[2]) {
             computer.addBall();
         }
-        if (player.inputNumber[1] - '0' == computer.randomNumber[0] || player.inputNumber[1] - '0' == computer.randomNumber[2]) {
+        if (getIntNumber(player.inputNumber[1]) == computer.randomNumber[0] || getIntNumber(player.inputNumber[1]) == computer.randomNumber[2]) {
             computer.addBall();
         }
-        if (player.inputNumber[2] - '0' == computer.randomNumber[0] || player.inputNumber[2] - '0' == computer.randomNumber[1]) {
+        if (getIntNumber(player.inputNumber[2]) == computer.randomNumber[0] || getIntNumber(player.inputNumber[2]) == computer.randomNumber[1]) {
             computer.addBall();
         }
     }
@@ -60,24 +53,32 @@ public class Application {
 
     public void printHint() {
         if (computer.ball != 0) {
-            System.out.print(computer.ball + "볼 ");
+            System.out.print(computer.getBall() + "볼 ");
         }
         if (computer.strike != 0) {
-            System.out.print(computer.strike + "스트라이크");
+            System.out.print(computer.getStrike() + "스트라이크");
         }
-        if (computer.ball == 0 && computer.strike == 0) {
+        if (computer.getBall() == 0 && computer.getStrike() == 0) {
             System.out.print("낫싱");
         }
         System.out.println();
     }
 
-    public void confirmThreeStrike() {
-        if (computer.strike == 3) {
+    public void checkThreeStrike() {
+        if (computer.getStrike() == Computer.NUMBER_SIZE) {
             continueGame = false;
             System.out.println("3개의 숫자를 모두 맞히셨습니다! 게임 종료");
             System.out.println("게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요.");
         }
     }
 
+    public void restartGame() {
+        if (!continueGame) {
+            if (player.scanRestartNumber()) {
+                continueGame = true;
+                computer.makeRandomNumber();
+            }
+        }
+    }
 }
 
