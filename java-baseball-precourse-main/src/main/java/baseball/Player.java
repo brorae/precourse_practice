@@ -25,9 +25,25 @@ public class Player {
         throw new IllegalArgumentException();
     }
 
+    public char getInputNumber(int index) {
+        return inputNumber[index];
+    }
 
     public void saveInputNumber(String inputNumber) {
         this.inputNumber = inputNumber.toCharArray();
+    }
+
+    public void isValidInput() throws IllegalArgumentException {
+        if (inputNumber.length != Computer.NUMBER_SIZE || hasDuplicateNumber() || hasZero() || !isNumber()) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    public boolean isNumber() {
+        for (char eachNumber : inputNumber) {
+            if (!Character.isDigit(eachNumber)) return false;
+        }
+        return true;
     }
 
     public boolean hasDuplicateNumber() {
@@ -44,18 +60,5 @@ public class Player {
             }
         }
         return false;
-    }
-
-    public boolean isNumber() {
-        for (char eachNumber : inputNumber) {
-            if (!Character.isDigit(eachNumber)) return false;
-        }
-        return true;
-    }
-
-    public void isValidInput() throws IllegalArgumentException {
-        if (inputNumber.length != Computer.NUMBER_SIZE || hasDuplicateNumber() || hasZero() || !isNumber()) {
-            throw new IllegalArgumentException();
-        }
     }
 }

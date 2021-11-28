@@ -1,21 +1,21 @@
 package baseball;
 
 public class Application {
-
     public Computer computer;
     public Player player;
-    public boolean continueGame = true;
+    public boolean continueGame;
 
     public Application(Computer computer, Player player) {
         this.computer = computer;
         this.player = player;
+        this.continueGame = true;
     }
 
     public static void main(String[] args) {
         Computer computer = new Computer();
         Player player = new Player();
         Application application = new Application(computer, player);
-        application.computer.makeRandomNumber();
+        computer.makeRandomNumber();
         while (application.continueGame) {
             application.player.scanInputNumber();
             application.countBall();
@@ -32,20 +32,20 @@ public class Application {
     }
 
     public void countBall() {
-        if (getIntNumber(player.inputNumber[0]) == computer.randomNumber[1] || getIntNumber(player.inputNumber[0]) == computer.randomNumber[2]) {
+        if (getIntNumber(player.getInputNumber(0)) == computer.getRandomNumber(1) || getIntNumber(player.getInputNumber(0)) == computer.getRandomNumber(2)) {
             computer.addBall();
         }
-        if (getIntNumber(player.inputNumber[1]) == computer.randomNumber[0] || getIntNumber(player.inputNumber[1]) == computer.randomNumber[2]) {
+        if (getIntNumber(player.getInputNumber(1)) == computer.getRandomNumber(0) || getIntNumber(player.getInputNumber(1)) == computer.getRandomNumber(2)) {
             computer.addBall();
         }
-        if (getIntNumber(player.inputNumber[2]) == computer.randomNumber[0] || getIntNumber(player.inputNumber[2]) == computer.randomNumber[1]) {
+        if (getIntNumber(player.getInputNumber(2)) == computer.getRandomNumber(0) || getIntNumber(player.getInputNumber(2)) == computer.getRandomNumber(1)) {
             computer.addBall();
         }
     }
 
     public void countStrike() {
         for (int i = 0; i < Computer.NUMBER_SIZE; i++) {
-            if (computer.randomNumber[i] == player.inputNumber[i] - '0') {
+            if (computer.getRandomNumber(i) == getIntNumber(player.inputNumber[i])) {
                 computer.addStrike();
             }
         }
@@ -64,11 +64,15 @@ public class Application {
         System.out.println();
     }
 
+    public void printEndGame() {
+        System.out.println("3개의 숫자를 모두 맞히셨습니다! 게임 종료");
+        System.out.println("게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요.");
+    }
+
     public void checkThreeStrike() {
         if (computer.getStrike() == Computer.NUMBER_SIZE) {
             continueGame = false;
-            System.out.println("3개의 숫자를 모두 맞히셨습니다! 게임 종료");
-            System.out.println("게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요.");
+            printEndGame();
         }
     }
 
@@ -81,4 +85,3 @@ public class Application {
         }
     }
 }
-
